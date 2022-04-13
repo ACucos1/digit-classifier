@@ -32,8 +32,8 @@ public class NeuralNet {
 
         initSparkSession();
 
-        List<LabeledImage> labeledImages = IdxReader.loadData(trainData);
-        List<LabeledImage> testLabeledImages = IdxReader.loadTestData(testFieldValue);
+        List<LabeledImage> labeledImages = DataReader.loadData(trainData);
+        List<LabeledImage> testLabeledImages = DataReader.loadTestData(testFieldValue);
 
         Dataset<Row> train = sparkSession.createDataFrame(labeledImages, LabeledImage.class).checkpoint();
         Dataset<Row> test = sparkSession.createDataFrame(testLabeledImages, LabeledImage.class).checkpoint();
