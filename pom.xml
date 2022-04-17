@@ -7,7 +7,8 @@
     <groupId>1</groupId>
     <artifactId>DigitClassifier</artifactId>
     <version>1.0</version>
-
+	
+	
     <properties>
         <slf4j.version>1.7.16</slf4j.version>
         <log4j.version>2.8.1</log4j.version>
@@ -20,37 +21,28 @@
             <url>http://repo1.maven.org/maven2/</url>
         </repository>
     </repositories>
-    <!--    <repositories>
-            <repository><id>a</id><url>https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10</url></repository>
-        </repositories>-->
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
-        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.11</artifactId>
             <version>2.2.0</version>
         </dependency>
 
-        <!--LOGGER-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-ext -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-ext</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-        <!-- Binding for Log4J -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-        <!-- Log4j API and Core implementation required for binding -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -67,15 +59,12 @@
             <version>${log4j.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib_2.10 -->
-        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_2.11</artifactId>
             <version>2.2.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client -->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
@@ -85,7 +74,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>LATEST</version>
+            <version>4.13.2</version>
         </dependency>
         <dependency>
             <groupId>org.swinglabs</groupId>
@@ -97,13 +86,11 @@
             <artifactId>glazedlists_java16</artifactId>
             <version>1.10.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.mortennobel/java-image-scaling -->
         <dependency>
             <groupId>com.mortennobel</groupId>
             <artifactId>java-image-scaling</artifactId>
             <version>0.8.6</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-core -->
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-core</artifactId>
@@ -121,9 +108,15 @@
             <artifactId>deeplearning4j-zoo</artifactId>
             <version>0.9.1</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.0</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
-    <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
 
 
     <build>
@@ -146,6 +139,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

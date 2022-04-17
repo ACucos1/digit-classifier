@@ -15,12 +15,12 @@ public class Run {
 	private static JFrame mainFrame = new JFrame();
 
 	public static void main(String[] args) throws Exception {
-
-		LOGGER.info("Application is starting ... ");
-
+		
+		LOGGER.info("Initializing... ");
+		
 		setHadoopHomeEnvironmentVariable();
 		ProgressBar progressBar = new ProgressBar(mainFrame, true);
-		progressBar.showProgressBar("Collecting data this make take several seconds!");
+		progressBar.showProgressBar("Collecting Data...");
 		UI ui = new UI();
 		Executors.newCachedThreadPool().submit(() -> {
 			try {

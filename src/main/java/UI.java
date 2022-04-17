@@ -26,12 +26,10 @@ public class UI {
     private JPanel mainPanel;
     private JPanel drawAndDigitPredictionPanel;
     private SpinnerNumberModel modelTrainSize;
-    private JSpinner trainField;
     private int TRAIN_SIZE = 30000;
     private final Font sansSerifBold = new Font("SansSerif", Font.BOLD, 18);
     private int TEST_SIZE = 10000;
     private SpinnerNumberModel modelTestSize;
-    private JSpinner testField;
     private JPanel resultPanel;
 
     public UI() throws Exception {
@@ -40,15 +38,15 @@ public class UI {
         UIManager.put("ProgressBar.font", new FontUIResource(new Font("Dialog", Font.BOLD, 18)));
         neuralNetwork.init();
     }
-
+    
+    /**
+	 * @wbp.parser.entryPoint
+	 */
     public void initUI() {
-        // create main frame
         mainFrame = createMainFrame();
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-
-        addTopPanel();
 
         drawAndDigitPredictionPanel = new JPanel(new GridLayout());
         addActionPanel();
@@ -56,14 +54,13 @@ public class UI {
         mainPanel.add(drawAndDigitPredictionPanel, BorderLayout.CENTER);
 
 
-        mainFrame.add(mainPanel, BorderLayout.CENTER);
+        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
         mainFrame.setVisible(true);
 
     }
 
     private void addActionPanel() {
         JButton recognize = new JButton("Check Digit");
-//         JButton recognizeCNN = new JButton("Recognize Digit With Conv NN");
         recognize.addActionListener(e -> {
             Image drawImage = drawArea.getImage();
             BufferedImage sbi = toBufferedImage(drawImage);
@@ -87,64 +84,20 @@ public class UI {
             drawArea.repaint();
             drawAndDigitPredictionPanel.updateUI();
         });
-        JPanel actionPanel = new JPanel(new GridLayout(8, 1));
+        JPanel actionPanel = new JPanel(new GridLayout(2, 1));
         actionPanel.add(recognize);
         actionPanel.add(clear);
         drawAndDigitPredictionPanel.add(actionPanel);
     }
 
     private void addDrawAreaAndPredictionArea() {
-
         drawArea = new DrawArea();
-
         drawAndDigitPredictionPanel.add(drawArea);
         resultPanel = new JPanel();
         resultPanel.setLayout(new GridBagLayout());
         drawAndDigitPredictionPanel.add(resultPanel);
     }
 
-    private void addTopPanel() {
-        JPanel topPanel = new JPanel(new FlowLayout());
-        JButton trainNN = new JButton("Train NN");
-        trainNN.addActionListener(e -> {
-
-            int i = JOptionPane.showConfirmDialog(mainFrame, "Are you sure this may take some time to train?");
-
-            if (i == JOptionPane.OK_OPTION) {
-                ProgressBar progressBar = new ProgressBar(mainFrame);
-                SwingUtilities.invokeLater(() -> progressBar.showProgressBar("Training may take one or two minutes..."));
-                Executors.newCachedThreadPool().submit(() -> {
-                    try {
-                        LOGGER.info("Start of train Neural Network");
-                        neuralNetwork.train((Integer) trainField.getValue(), (Integer) testField.getValue());
-                        LOGGER.info("End of train Neural Network");
-                    } finally {
-                        progressBar.setVisible(false);
-                    }
-                });
-            }
-        });
-
-
-        topPanel.add(trainNN);
-        JLabel tL = new JLabel("Training Data");
-        tL.setFont(sansSerifBold);
-        topPanel.add(tL);
-        modelTrainSize = new SpinnerNumberModel(TRAIN_SIZE, 10000, 60000, 1000);
-        trainField = new JSpinner(modelTrainSize);
-        trainField.setFont(sansSerifBold);
-        topPanel.add(trainField);
-
-        JLabel ttL = new JLabel("Test Data");
-        ttL.setFont(sansSerifBold);
-        topPanel.add(ttL);
-        modelTestSize = new SpinnerNumberModel(TEST_SIZE, 1000, 10000, 500);
-        testField = new JSpinner(modelTestSize);
-        testField.setFont(sansSerifBold);
-        topPanel.add(testField);
-
-        mainPanel.add(topPanel, BorderLayout.NORTH);
-    }
 
 
     private static BufferedImage scale(BufferedImage imageToScale) {
@@ -155,45 +108,41 @@ public class UI {
     }
 
     private static BufferedImage toBufferedImage(Image img) {
-        // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
-        // Draw the image on to the buffered image
-        Graphics2D bGr = bimage.createGraphics();
+        BufferedImage bimg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D bGr = bimg.createGraphics();
         bGr.drawImage(img, 0, 0, null);
         bGr.dispose();
 
-        // Return the buffered image
-        return bimage;
+        return bimg;
     }
 
 
     private static double[] transformImageToOneDimensionalVector(BufferedImage img) {
 
-        double[] imageGray = new double[28 * 28];
+        double[] imageVec = new double[28 * 28];
         int w = img.getWidth();
         int h = img.getHeight();
         int index = 0;
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 Color color = new Color(img.getRGB(j, i), true);
-                int red = (color.getRed());
-                int green = (color.getGreen());
-                int blue = (color.getBlue());
-                double v = 255 - (red + green + blue) / 3d;
-                imageGray[index] = v;
+                int r = (color.getRed());
+                int g = (color.getGreen());
+                int b = (color.getBlue());
+                double v = 255 - (r + g + b) / 3d;
+                imageVec[index] = v;
                 index++;
             }
         }
-        return imageGray;
+        return imageVec;
     }
 
 
     private JFrame createMainFrame() {
         JFrame mainFrame = new JFrame();
-        mainFrame.setTitle("Machine Learning Digit Rec");
+        mainFrame.setTitle("Digit Classifier");
         mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        mainFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        mainFrame.setSize(897, 441);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override

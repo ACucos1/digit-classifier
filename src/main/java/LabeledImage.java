@@ -36,11 +36,11 @@ public class LabeledImage implements Serializable {
         }
         double mean = sum / pixels.length;
 
-        double[] pixelsNorm = new double[pixels.length];
+        double[] normalizedPixels = new double[pixels.length];
         for (int i = 0; i < pixels.length; i++) {
-            pixelsNorm[i] = (pixels[i] - mean) / (max - min);
+            normalizedPixels[i] = (pixels[i] - mean) / (max - min);
         }
-        return pixelsNorm;
+        return normalizedPixels;
     }
 
     public Vector getFeatures() {
