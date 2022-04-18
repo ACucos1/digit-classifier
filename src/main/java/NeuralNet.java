@@ -6,15 +6,11 @@ import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
 
 public class NeuralNet {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(NeuralNet.class);
 
     private SparkSession sparkSession;
     private MultilayerPerceptronClassificationModel model;
@@ -22,9 +18,7 @@ public class NeuralNet {
     public void init() {
         initSparkSession();
         if (model == null) {
-            LOGGER.info("Loading the Neural Network from saved model ... ");
             model = MultilayerPerceptronClassificationModel.load("resources/nnTrainedModels/ModelWith60000");
-            LOGGER.info("Loading from saved model is done");
         }
     }
 
@@ -54,11 +48,10 @@ public class NeuralNet {
 
     private void evalOnTest(Dataset<Row> test) {
         Dataset<Row> result = model.transform(test);
-        Dataset<Row> predictionAndLabels = result.select("prediction", "label");
-        MulticlassClassificationEvaluator evaluator = new MulticlassClassificationEvaluator()
+        result.select("prediction", "label");
+        new MulticlassClassificationEvaluator()
                 .setMetricName("accuracy");
 
-        LOGGER.info("Test set accuracy = " + evaluator.evaluate(predictionAndLabels));
     }
 
     private void initSparkSession() {

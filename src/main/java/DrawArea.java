@@ -10,7 +10,11 @@ import javax.swing.border.TitledBorder;
 
 public class DrawArea extends JComponent {
 
-    private final Font sansSerifBold = new Font("SansSerif", Font.BOLD, 18);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final Font sansSerifBold = new Font("SansSerif", Font.BOLD, 18);
     private Image image;
     private Graphics2D g2;
     private int currentX, currentY, oldX, oldY;

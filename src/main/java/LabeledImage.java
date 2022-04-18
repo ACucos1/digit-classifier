@@ -5,7 +5,11 @@ import org.apache.spark.ml.linalg.Vectors;
 import java.io.Serializable;
 
 public class LabeledImage implements Serializable {
-    private final double[] meanNormalizedPixel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final double[] meanNormalizedPixel;
     private final double[] pixels;
     private double label;
     private Vector features;

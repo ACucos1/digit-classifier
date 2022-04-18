@@ -2,8 +2,6 @@
 
 import com.mortennobel.imagescaling.ResampleFilters;
 import com.mortennobel.imagescaling.ResampleOp;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -11,25 +9,16 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.Executors;
 
 public class UI {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(UI.class);
 
-    private static final int FRAME_WIDTH = 1200;
-    private static final int FRAME_HEIGHT = 628;
     private final NeuralNet neuralNetwork = new NeuralNet();
 
     private DrawArea drawArea;
     private JFrame mainFrame;
     private JPanel mainPanel;
     private JPanel drawAndDigitPredictionPanel;
-    private SpinnerNumberModel modelTrainSize;
-    private int TRAIN_SIZE = 30000;
-    private final Font sansSerifBold = new Font("SansSerif", Font.BOLD, 18);
-    private int TEST_SIZE = 10000;
-    private SpinnerNumberModel modelTestSize;
     private JPanel resultPanel;
 
     public UI() throws Exception {
